@@ -10,7 +10,7 @@ import UIKit
 
 protocol Draggable: class {
     var view: UIView { get }
-    var lastLocation: CGPoint { get set }
+    var initialLocation: CGPoint { get set }
 
     func registerDraggability() -> Void
     func removeDraggability() -> Void

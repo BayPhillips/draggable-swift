@@ -42,7 +42,7 @@ extension Draggable where Self: UIView {
     func didPress(pressGesture: UILongPressGestureRecognizer) {
         switch pressGesture.state {
         case UIGestureRecognizerState.Began:
-            self.lastLocation = self.view.center
+            self.initialLocation = self.view.center
             UIView.animateWithDuration(0.1, animations: { () -> Void in
                 self.parentView?.bringSubviewToFront(self.view)
                 self.view.transform = CGAffineTransformMakeScale(0.80, 0.80)
@@ -60,6 +60,6 @@ extension Draggable where Self: UIView {
     
     func didPan(panGesture: UIPanGestureRecognizer) {
         let translation = panGesture.translationInView(self.parentView)
-        self.view.center = CGPointMake(self.lastLocation.x + translation.x, self.lastLocation.y + translation.y)
+        self.view.center = CGPointMake(self.initialLocation.x + translation.x, self.initialLocation.y + translation.y)
     }
 }
