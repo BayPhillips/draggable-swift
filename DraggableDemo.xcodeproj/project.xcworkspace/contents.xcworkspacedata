@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:DraggableTest.xcodeproj">
+      location = "self:/Users/Bay/DraggableTest/DraggableDemo.xcodeproj">
    </FileRef>
 </Workspace>

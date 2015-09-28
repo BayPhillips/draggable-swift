@@ -10,16 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    var redBox: DraggableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        redBox = DraggableView(frame: CGRectMake(150, 150, 250, 250))
+        redBox.backgroundColor = UIColor.redColor()
+        self.view.addSubview(redBox)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
-
