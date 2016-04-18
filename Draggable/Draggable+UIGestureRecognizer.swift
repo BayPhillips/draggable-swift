@@ -10,6 +10,9 @@ import UIKit
 
 extension UIGestureRecognizer {
     private class ClosureWrapper: NSObject {
+        
+        static var gestureMapping = NSMapTable.weakToStrongObjectsMapTable()
+        
         let handler: (UIGestureRecognizer) -> Void
         
         init(handler: (UIGestureRecognizer) -> Void) {
@@ -41,17 +44,19 @@ extension UIGestureRecognizer {
         }
     }
     
-    private static var handlerKey: String = "handlerKey"
     var handler: (UIGestureRecognizer) -> Void {
         get {
-            let closureWrapper: ClosureWrapper = objc_getAssociatedObject(self, &UIGestureRecognizer.handlerKey) as! ClosureWrapper
-            return closureWrapper.handler
+            if let closureWrapper = ClosureWrapper.gestureMapping.objectForKey(self) as? ClosureWrapper {
+                return closureWrapper.handler
+            } else {
+                fatalError("Couldn't find mapping")
+            }
         }
         set {
-            self.addTarget(self, action: Selector("handleAction"))
+            self.addTarget(self, action: #selector(handleAction))
             self.multiDelegate = GestureDelegate()
             self.delegate = self.multiDelegate
-            objc_setAssociatedObject(self, &UIGestureRecognizer.handlerKey, ClosureWrapper(handler: newValue), objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            ClosureWrapper.gestureMapping.setObject(ClosureWrapper(handler: newValue), forKey: self)
         }
     }
     
